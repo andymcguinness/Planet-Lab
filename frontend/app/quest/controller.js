@@ -2,11 +2,10 @@
  * File: quest/controller.js
  * Description: Contains controllers for various aspects of the quest part of the site
  * Dependencies: $stateParams, ResourceFcty, S3Fcty, $state
+ * @ngInject
  *
  * @package Planet-Lab
  */
-
-'use strict';
 
 /* === Function Declarations === */
 function QuestCtrl ($stateParams, ResourceFcty, S3Fcty) {
@@ -21,7 +20,7 @@ function QuestCtrl ($stateParams, ResourceFcty, S3Fcty) {
     this.deleteQuest = function() {this.quest.$delete()};
 }
 
-function QuestFormCtrl (ResourceFcty, S3Fcty, $stateParams, $state) {
+function QuestFormCtrl ($state, $stateParams, ResourceFcty, S3Fcty) {
     if ($state.is('quests.form')) {
         $state.go('quests.form.basic');
     }

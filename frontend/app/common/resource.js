@@ -2,11 +2,10 @@
  * File: resource.js
  * Description: Contains various factories for working with the database
  * Dependencies: $resource
+ * @ngInject
  *
  * @package Planet-Lab
  */
-
-'use strict';
 
 /* === Function Declarations === */
 function ResourceFcty ($resource) {

@@ -2,18 +2,17 @@
  * File: user/controller.js
  * Description: Contains various controllers for user-based functionality on the site
  * Dependencies: CurrentUserFcty, $stateParams, ResourceFcty, S3Fcty
+ * @ngInject
  *
  * @package Planet-Lab
  */
-
-'use strict';
 
 /* === Function Declarations === */
 function UserLogoutCtrl (CurrentUserFcty) {
     this.logOut = CurrentUserFcty.logOut;
 }
 
-function UserCtrl ($stateParams, ResourceFcty, S3Fcty, CurrentUserFcty) {
+function UserCtrl ($stateParams, CurrentUserFcty, ResourceFcty, S3Fcty) {
     CurrentUserFcty.getCurrentUserId().then(function(id) {
         this.user = ResourceFcty('users').get({id: id})
     }.bind(this));
@@ -21,12 +20,12 @@ function UserCtrl ($stateParams, ResourceFcty, S3Fcty, CurrentUserFcty) {
     this.onFileSelect = function($files) {
         S3Fcty.upload($files[0], 'users', this.user.id, 'avatar').then(
             function(avatar_url) {
-                this.user.avatar_url = avatar_url;
+                this.user.avatar_url = avatar_url.replace(' ', '%20');
             }.bind(this));
     };
 }
 
-function UserQuestsCtrl (ManyToOneResourceFcty, CurrentUserFcty) {
+function UserQuestsCtrl (CurrentUserFcty, ManyToOneResourceFcty) {
     CurrentUserFcty.getCurrentUserId().then(function(id) {
         this.quests = ManyToOneResourceFcty('quests', 'users').query({parentId: id});
     }.bind(this));
@@ -38,7 +37,7 @@ function UserMissionsCtrl (CurrentUserFcty, ManyToOneResourceFcty) {
     }.bind(this));
 }
 
-function UserSettingsCtrl ($stateParams, ResourceFcty, S3Fcty, CurrentUserFcty) {
+function UserSettingsCtrl ($stateParams, CurrentUserFcty, ResourceFcty, S3Fcty) {
     CurrentUserFcty.getCurrentUserId().then(function(id) {
         this.user = ResourceFcty('users').get({id: id})
     }.bind(this));
@@ -53,7 +52,7 @@ function UserSettingsCtrl ($stateParams, ResourceFcty, S3Fcty, CurrentUserFcty) 
 
 /* === Controller Declarations === */
 angular.module('planetApp')
-    .controller('UserLogOutCtrl', UserLogOutCtrl)
+    .controller('UserLogoutCtrl', UserLogoutCtrl)
     .controller('UserCtrl', UserCtrl)
     .controller('UserQuestsCtrl', UserQuestsCtrl)
     .controller('UserMissionsCtrl', UserMissionsCtrl)

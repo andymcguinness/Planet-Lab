@@ -2,18 +2,17 @@
  * File: mission/controller.js
  * Description: Contains the controllers for various parts of the mission section of the site
  * Dependencies: $stateParams, ResourceFcty, S3Fcty, ManyToOneResourceFcty, $state, CurrentUserFcty
+ * @ngInject
  *
  * @package Planet-Lab
  */
-
-'use strict';
 
 /* === Function Declarations === */
 function MissionCtrl ($stateParams, ResourceFcty, S3Fcty ) {
     this.mission = ResourceFcty('missions').get({id: $stateParams.id})
 }
 
-function MissionFormCtrl (ResourceFcty, S3Fcty, ManyToOneResourceFcty, $stateParams, $state, CurrentUserFcty) {
+function MissionFormCtrl ($state, $stateParams, CurrentUserFcty, ManyToOneResourceFcty, ResourceFcty, S3Fcty) {
     if ($state.is('missions.form')) {
         $state.go('missions.form.basic');
     }
